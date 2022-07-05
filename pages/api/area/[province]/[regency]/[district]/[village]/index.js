@@ -4,7 +4,7 @@ export default async function village(req, res) {
   const {province, regency, district, village} = req.query || ''
 
   const response = await getZipCode(
-    `/area/${province}/${regency}/${district}/${village}`,
+    `/${province}/${regency}/${district}/${village}`,
     true
   )
 
