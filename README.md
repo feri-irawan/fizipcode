@@ -1,27 +1,217 @@
-# Next.js + Tailwind CSS Example
+# FiZipcode
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.0)](https://tailwindcss.com/blog/tailwindcss-v3) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+Aplikasi berbasi web untuk mencari kode pos seluruh daerah Indonesia.
 
-## Preview
+Muali dibuat pada 05/07/2022 pagi, oleh [Feri Irawan](https://github.com/feri-irawan)
 
-Preview the example live on [StackBlitz](http://stackblitz.com/):
+Web: <https://fizipcode.vercel.app>
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
+## Panduan Permintaan API
 
-## Deploy your own
+Berikut ini panduan untuk melakukan permintaan HTTP ke rute API
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+### Mencari Kode Pos Berdasarkan Kata Kunci
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
+**URL:**
 
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
-# or
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
+```plaintext
+/api?search={KATA KUNCI DISINI}
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+**Contoh:**
+
+```plaintext
+/api?search=Bijawang
+```
+
+**Respon:**
+
+```json
+{
+  "status": 200,
+  "message": "Berhasil medapatkan kodepos",
+  "data": [
+    {
+      "zipcode": "92661",
+      "village": "Bijawang",
+      "district": "Ujung Loe",
+      "regency": "Bulukumba",
+      "province": "Sulawesi Selatan"
+    }
+  ]
+}
+```
+
+### Mencari Kode Pos Berdasarkan Provinsi
+
+> **Catatan:**
+>
+> Penulisan nama provinsi, kabupaten, kecamatan, atau desa dalam permintaan API harus dalam bentuk **slug** contoh: provinsi `Sulawesi Selatan` menjadi `sulawesi-selatan` atau kabupaten `Bulukumba` menjadi `bulukumba` atau kecamatan `Ujung Loe` menjadi `ujung-loe`
+
+**URL:**
+
+```plaintext
+/api/area/{provinsi}
+```
+
+**Contoh:**
+
+```plaintext
+/api/area/sulawesi-selatan
+```
+
+**Respon:**
+
+```json
+{
+  "status": 200,
+  "message": "Berhasil medapatkan kodepos",
+  "data": [
+    {
+      "zipcode": "92561",
+      "village": "Polewali",
+      "district": "Gantorang/Gantarang (Gangking)",
+      "regency": "Bulukumba",
+      "province": "Sulawesi Selatan"
+    },
+    {
+      "zipcode": "92161",
+      "village": "Bontoala",
+      "district": "Pallangga",
+      "regency": "Gowa",
+      "province": "Sulawesi Selatan"
+    },
+    {
+      "zipcode": "91754",
+      "village": "Mata Allo",
+      "district": "Alla",
+      "regency": "Enrekang",
+      "province": "Sulawesi Selatan"
+    }
+  ]
+}
+```
+
+### Mencari Kode Pos Berdasarkan Provinsi dan Kabupaten
+
+**URL:**
+
+```plaintext
+/api/area/{provinsi}/{kabupaten}
+```
+
+**Contoh:**
+
+```plaintext
+/api/area/sulawesi-selatan/bulukumba
+```
+
+**Respon:**
+
+```json
+{
+  "status": 200,
+  "message": "Berhasil medapatkan kodepos",
+  "data": [
+    {
+      "zipcode": "92661",
+      "village": "Bijawang",
+      "district": "Ujung Loe",
+      "regency": "Bulukumba",
+      "province": "Sulawesi Selatan"
+    },
+    {
+      "zipcode": "92552",
+      "village": "Bulolohe",
+      "district": "Rilau Ale",
+      "regency": "Bulukumba",
+      "province": "Sulawesi Selatan"
+    },
+    {
+      "zipcode": "92661",
+      "village": "Garanta",
+      "district": "Ujung Loe",
+      "regency": "Bulukumba",
+      "province": "Sulawesi Selatan"
+    }
+  ]
+}
+```
+
+### Mencari Kode Pos Berdasarkan Provinsi, Kabupaten dan Kecamatan
+
+**URL:**
+
+```plaintext
+/api/area/{provinsi}/{kabupaten}/{kecamatan}
+```
+
+**Contoh:**
+
+```plaintext
+/api/area/sulawesi-selatan/bulukumba/ujung-loe
+```
+
+**Respon:**
+
+```json
+{
+  "status": 200,
+  "message": "Berhasil medapatkan kodepos",
+  "data": [  
+    {
+      "zipcode": "92661",
+      "village": "Bijawang",
+      "district": "Ujung Loe",
+      "regency": "Bulukumba",
+      "province": "Sulawesi Selatan"
+    },
+    {
+      "zipcode": "92661",
+      "village": "Tamatto",
+      "district": "Ujung Loe",
+      "regency": "Bulukumba",
+      "province": "Sulawesi Selatan"
+    },
+    {
+      "zipcode": "92661",
+      "village": "Garanta",
+      "district": "Ujung Loe",
+      "regency": "Bulukumba",
+      "province": "Sulawesi Selatan"
+    }
+  ]
+}
+```
+
+### Mencari Kode Pos Berdasarkan Provinsi, Kabupaten, Kecamatan dan Desa
+
+**URL:**
+
+```plaintext
+/api/area/{provinsi}/{kabupaten}/{kecamatan}/{desa}
+```
+
+**Contoh:**
+
+```plaintext
+/api/area/sulawesi-selatan/bulukumba/ujung-loe/bijawang
+```
+
+**Respon:**
+
+```json
+{
+  "status": 200,
+  "message": "Berhasil medapatkan kodepos",
+  "data": [
+    {
+      "zipcode": "92661",
+      "village": "Bijawang",
+      "district": "Ujung Loe",
+      "regency": "Bulukumba",
+      "province": "Sulawesi Selatan"
+    }
+  ]
+}
+```
