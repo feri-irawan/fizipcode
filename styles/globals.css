@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+table th,
+table td {
+  @apply px-3 py-2;
+}
+
+tbody tr:nth-child(odd) {
+  @apply bg-teal-100;
+}
